@@ -1,0 +1,11 @@
+{
+  "name": "IJW",
+  "tree": {
+    "$path": "src",
+    "roblox_packages": {
+      "$path": {
+        "optional": "roblox_packages"
+      }
+    }
+  }
+}
