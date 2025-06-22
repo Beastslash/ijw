@@ -92,56 +92,11 @@ jobs:
           script: |
             try {
 
-              let testResults = require("./testResults.json");
-              let indexedGroup = {};
-              let groups = [testResults]
-              let nameGroups = []
-              let closestIndexedGroup = indexedGroup;
-              while (groups.length >= 1) {
-
-                let shouldGoUp = true;
-                let currentGroup = groups[groups.length - 1];
-                for (const caseName of Object.keys(currentGroup)) {
-
-                  const caseValue = currentGroup[caseName];
-                  if (closestIndexedGroup[caseName]) {
-
-                    continue;
-
-                  } else if (typeof(caseValue) === "object") {
-
-                    closestIndexedGroup[caseName] = {};
-                    closestIndexedGroup = closestIndexedGroup[caseName];
-                    groups.push(caseValue);
-                    nameGroups.push(caseName);
-                    shouldGoUp = false;
-
-                    break;
-
-                  } else if (!caseValue || typeof(caseValue) !== "boolean") {
-                    
-                    throw new Error("A test case failed.");
-                  
-                  }
-
-                }
-
-                if (shouldGoUp) {
-
-                  groups.pop();
-                  nameGroups.pop();
-
-                  let newClosestIndexedGroup = indexedGroup;
-                  for (const name of nameGroups) {
-
-                    newClosestIndexedGroup = newClosestIndexedGroup[name]
-
-                  }
-
-                  closestIndexedGroup = newClosestIndexedGroup;
-
-                }
-
+              const fs = require("fs");
+              const results = fs.readFileSync("testResults.txt", "utf8");
+              
+              if (!results.includes("100% coverage")) {
+                throw new Error("Not all tests passed. Check the test results.");
               }
             
             } catch (error) {
