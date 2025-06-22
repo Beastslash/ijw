@@ -1,0 +1,19 @@
+{
+  "name": "IJW",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "IJW": {
+        "roblox_packages": {
+          "$path": {
+            "optional": "roblox_packages"
+          }
+        },
+        "$path": "src"
+      },
+      "runTests": {
+        "$path": "runTests.luau"
+      }
+    }
+  }
+}
