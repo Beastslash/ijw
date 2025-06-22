@@ -101,7 +101,6 @@ end;
 
 function TestRunner:displayResults(results: {TestCaseRunResult})
 
-
   print(`Results from running {#results} tests`);
   print("---");
 

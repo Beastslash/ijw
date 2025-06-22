@@ -83,7 +83,7 @@ jobs:
           universe_id: ${{ vars.ROBLOX_UNIVERSE_ID }}
           place_id: ${{ vars.ROBLOX_PLACE_ID }}
           luau_file: "runTests.luau"
-          output_file: "testResults.json"
+          output_file: "testResults.txt"
           dump_to_summary: true
 
       - name: Verify all tests passed
