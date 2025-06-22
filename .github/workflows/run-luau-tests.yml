@@ -45,7 +45,7 @@ jobs:
     
   publish:
     name: Deploy
-    environment: Production
+    environment: Development
     runs-on: ubuntu-24.04
     needs: build
     steps:
@@ -69,7 +69,7 @@ jobs:
 
   test:
     runs-on: ubuntu-24.04
-    environment: Production
+    environment: Development
     name: Test
     needs: publish
     steps:
