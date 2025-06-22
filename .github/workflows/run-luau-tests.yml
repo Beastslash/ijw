@@ -44,7 +44,7 @@ jobs:
           path: build.rbxl
     
   publish:
-    name: Deploy
+    name: Deploy to testing place
     environment: Development
     runs-on: ubuntu-24.04
     needs: build
@@ -92,7 +92,14 @@ jobs:
           script: |
             try {
 
-              const testResults = require("./testResults.json");
+              const outputFile = require("./testResults.json");
+              const testResults = outputFile[0];
+              if (!testResults) {
+
+                throw new Error("No test results found.");
+
+              }
+
               for (const test of testResults) {
               
                 if (!test.didPass) {
