@@ -11,16 +11,9 @@ type TestSuite = types.TestSuite;
 
 local TestCase = {};
 
-function TestCase.new(name: string, callback: TestCaseCallback, testSuite: TestSuite?): TestCase
+function TestCase.new(name: string, callback: TestCaseCallback): TestCase
 
-  local clone: TestCaseCloneFunction = function(self, newName: string?, newCallback: TestCaseCallback?, newTestSuite: TestSuite?)
-
-    local newTestCase = TestCase.new(newName or self.name, newCallback or callback, newTestSuite or self.testSuite);
-    return newTestCase;
-
-  end;
-
-  local run: TestCaseRunFunction = function(self)
+  local run: TestCaseRunFunction = function(self, testSuite: TestSuite?)
 
     local startTime = os.clock();
 
@@ -46,9 +39,7 @@ function TestCase.new(name: string, callback: TestCaseCallback, testSuite: TestS
   
   local testCase = {
     name = name;
-    testSuite = testSuite;
     type = "TestCase" :: "TestCase";
-    clone = clone;
     run = run;
   };
 

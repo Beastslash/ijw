@@ -45,17 +45,5 @@ return {
       expect(result.endTime).toBeA("number");
 
     end);
-
-    it("should clone a TestCase with similar properties", function()
-      
-      local originalTestCase = TestCase.new("Original Test", function() end);
-      local clonedTestCase = originalTestCase:clone("Cloned Test");
-
-      expect(clonedTestCase.name).toBe("Cloned Test");
-      expect(clonedTestCase.type).toBe("TestCase");
-      expect(clonedTestCase.run).toBeA("function");
-      expect(clonedTestCase.testSuite).toBeNil();
-
-    end);
   });
 };

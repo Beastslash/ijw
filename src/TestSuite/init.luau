@@ -54,21 +54,9 @@ function TestSuite.new(name: string, testCases: {TestCase} | () -> {TestCase}, c
   local testSuite: TestSuite = {
     type = "TestSuite";
     name = name;
-    testCases = {};
+    testCases = if typeof(testCases) == "function" then testCases() else testCases;
     run = run;
   };
-
-  local testCaseList: {TestCase} = if typeof(testCases) == "function" then testCases() else testCases;
-
-  local parentedTestCases = {};
-  for _, testCase in testCaseList do
-
-    local parentedTestCase = testCase:clone(nil, nil, testSuite);
-    table.insert(parentedTestCases, parentedTestCase);
-
-  end;
-
-  testSuite.testCases = parentedTestCases;
 
   return testSuite;
 

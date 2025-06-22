@@ -4,12 +4,11 @@ export type TestCase = {
   type: "TestCase";
   name: string;
   run: TestCaseRunFunction;
-  clone: TestCaseCloneFunction;
-  testSuite: TestSuite?;
 };
 
 export type TestCaseRunResult = {
   testCase: TestCase;
+  testSuite: TestSuite?;
   didPass: boolean;
   errorMessage: string?;
   startTime: number;

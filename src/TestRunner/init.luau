@@ -108,7 +108,7 @@ function TestRunner:displayResults(results: {TestCaseRunResult})
   local passedCount = 0;
   for _, result in results do
 
-    local identifier = `{if result.testCase.testSuite then `{result.testCase.testSuite.name} • ` else ""}{result.testCase.name}`;
+    local identifier = `{if result.testSuite then `{result.testSuite.name} • ` else ""}{result.testCase.name}`;
     if result.didPass then
 
       passedCount += 1;
