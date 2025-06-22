@@ -19,7 +19,7 @@ concurrency:
 jobs:
   build:
     if: ${{ !github.event.pull_request.draft }}
-    name: Build
+    name: Build testing place
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
@@ -44,7 +44,7 @@ jobs:
           path: build.rbxl
     
   publish:
-    name: Deploy to testing place
+    name: Deploy testing place to Roblox
     environment: Development
     runs-on: ubuntu-24.04
     needs: build
@@ -70,7 +70,7 @@ jobs:
   test:
     runs-on: ubuntu-24.04
     environment: Development
-    name: Test
+    name: Run test cases
     needs: publish
     steps:
       - name: Checkout repository
