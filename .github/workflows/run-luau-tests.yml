@@ -83,7 +83,7 @@ jobs:
           universe_id: ${{ vars.ROBLOX_UNIVERSE_ID }}
           place_id: ${{ vars.ROBLOX_PLACE_ID }}
           luau_file: "runTests.luau"
-          output_file: "testResults.txt"
+          output_file: "testResults.json"
           dump_to_summary: true
 
       - name: Verify all tests passed
@@ -92,11 +92,15 @@ jobs:
           script: |
             try {
 
-              const fs = require("fs");
-              const results = fs.readFileSync("testResults.txt", "utf8");
+              const testResults = require("./testResults.json");
+              for (const test of testResults) {
               
-              if (!results.includes("100% coverage")) {
-                throw new Error("Not all tests passed. Check the test results.");
+                if (!test.didPass) {
+                
+                  throw new Error("A test case failed.");
+
+                }
+
               }
             
             } catch (error) {
