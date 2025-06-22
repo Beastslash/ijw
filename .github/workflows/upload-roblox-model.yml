@@ -44,7 +44,7 @@ jobs:
       - name: Download project
         uses: actions/download-artifact@v4.1.8
         with:
-          name: build.rbxl
+          name: build.rbxm
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
