@@ -63,7 +63,7 @@ jobs:
             const response = await fetch("https://auth.roblox.com/v2/logout", {
               method: "POST",
               headers: {
-                "Cookie": `ROBLOSECURITY=${process.env.ROBLOX_DEPLOYMENT_COOKIE}`,
+                "Cookie": `.ROBLOSECURITY=${process.env.ROBLOX_DEPLOYMENT_COOKIE}`,
                 "Content-Type": "application/json"
               }
             });
