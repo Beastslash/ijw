@@ -17,7 +17,7 @@ export type TestCaseRunResult = {
 
 export type TestCaseCloneFunction = (self: TestCase, newName: string?, newCallback: TestCaseCallback?, newTestSuite: TestSuite?) -> TestCase;
 
-export type TestCaseRunFunction = (testCase: TestCase) -> TestCaseRunResult;
+export type TestCaseRunFunction = (testCase: TestCase, testSuite: TestSuite?) -> TestCaseRunResult;
 
 export type TestSuiteRunFunction = (testSuite: TestSuite) -> {TestCaseRunResult};
 

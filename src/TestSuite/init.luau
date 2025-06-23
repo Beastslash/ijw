@@ -29,7 +29,7 @@ function TestSuite.new(name: string, testCases: {TestCase} | () -> {TestCase}, c
 
       end;
 
-      local result = testCase:run();
+      local result = testCase:run(self);
 
       if configuration and configuration.afterEach then
 
