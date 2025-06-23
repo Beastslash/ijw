@@ -125,8 +125,10 @@ local function expect(value: any)
       end;
 
       -- Check if both targets have the same key values.
-      local expectedStackTarget = expectedStack[#expectedStack];
-      local actualStackTarget = actualStack[#actualStack];
+      local expectedStackIndex = #expectedStack;
+      local expectedStackTarget = expectedStack[expectedStackIndex];
+      local actualStackIndex = #actualStack;
+      local actualStackTarget = actualStack[actualStackIndex];
       local ignoredKeys = {};
 
       for expectedStackKey, expectedStackValue in expectedStackTarget do
@@ -163,8 +165,8 @@ local function expect(value: any)
 
       end;
 
-      table.remove(actualStack, #actualStack);
-      table.remove(expectedStack, #expectedStack);
+      table.remove(actualStack, expectedStackIndex);
+      table.remove(expectedStack, actualStackIndex);
 
     end;
 
