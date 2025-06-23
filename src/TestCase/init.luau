@@ -26,11 +26,12 @@ function TestCase.new(name: string, callback: TestCaseCallback): TestCase
     local endTime = os.clock();
 
     local testResult: TestCaseRunResult = {
-      testCase = self;
       didPass = didPass;
+      endTime = endTime;
       errorMessage = errorMessage;
       startTime = startTime;
-      endTime = endTime;
+      testCase = self;
+      testSuite = testSuite;
     };
 
     return testResult;
