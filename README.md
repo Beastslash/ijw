@@ -10,8 +10,10 @@ A Roblox testing library that just works.
 
 ## Installation
 ### pesde
+You can add IJW to your dev dependencies by running this command:
+
 ```bash
-pesde add beastslash/ijw
+pesde add -d beastslash/ijw
 ```
 
 ### Roblox Creator Store
