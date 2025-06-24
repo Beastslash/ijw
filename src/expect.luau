@@ -28,6 +28,16 @@ local function expect(value: any)
 
   end;
 
+  local function toNotBe(expectedValue: any): ()
+
+    if value == expectedValue then
+
+      error(`Expected value to not be {expectedValue}, but it is.`);
+
+    end;
+
+  end;
+
   local function toBeA(expectedType: string): ()
 
     if typeof(value) ~= expectedType then
@@ -38,9 +48,29 @@ local function expect(value: any)
 
   end;
 
+  local function toBeTrue(): ()
+
+    if value ~= true then 
+      
+      error(`Expected value to be true, but it was {typeof(value)}.`);
+
+    end;
+
+  end;
+
   local function toBeTruthy(): ()
 
     assert(value, "Expected value to be truthy, but it was falsy.");
+
+  end;
+
+  local function toBeFalse(): ()
+
+    if value ~= false then
+      
+      error(`Expected value to be false, but it was {typeof(value)}.`);
+
+    end;
 
   end;
 
@@ -181,19 +211,70 @@ local function expect(value: any)
 
   end;
 
+  local function toFinishBeforeSeconds(seconds: number): ()
+
+    assert(typeof(value) == "function", "Expected value to be a function.");
+
+    local continueEvent = Instance.new("BindableEvent");
+    local didTimeout = false;
+    local timeoutTask = task.delay(seconds, function()
+
+      continueEvent:Fire();
+      didTimeout = true;
+
+    end);
+
+    local propagatedErrorMessage;
+
+    local testTask = task.spawn(function()
+
+      local didSucceed, errorMessage = xpcall(value, debug.traceback);
+
+      if not didSucceed then
+
+        propagatedErrorMessage = errorMessage;
+
+      end;
+
+      continueEvent:Fire();
+
+    end);
+
+    continueEvent.Event:Wait();
+    task.cancel(timeoutTask);
+    task.cancel(testTask);
+
+    if propagatedErrorMessage then
+
+      error(propagatedErrorMessage);
+
+    end;
+    
+    if didTimeout then
+
+      error(`Expected function to finish before {seconds} seconds, but it timed out.`);
+
+    end;
+
+  end;
+
   local functions = {
     toBe = toBe;
     toBeA = toBeA;
+    toBeFalse = toBeFalse;
     toBeFalsy = toBeFalsy;
+    toFinishBeforeSeconds = toFinishBeforeSeconds;
     toBeLessThan = toBeLessThan;
     toBeLessThanOrEqual = toBeLessThanOrEqual;
     toBeGreaterThan = toBeGreaterThan;
     toBeGreaterThanOrEqual = toBeGreaterThanOrEqual;
     toBeNil = toBeNil;
+    toBeTrue = toBeTrue;
     toBeTruthy = toBeTruthy;
     toDeepEqual = toDeepEqual;
     toError = toError;
     toExist = toExist;
+    toNotBe = toNotBe;
   };
 
   return functions;
