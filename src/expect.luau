@@ -216,11 +216,9 @@ local function expect(value: any)
     assert(typeof(value) == "function", "Expected value to be a function.");
 
     local continueEvent = Instance.new("BindableEvent");
-    local didTimeout = false;
     local timeoutTask = task.delay(seconds, function()
 
       continueEvent:Fire();
-      didTimeout = true;
 
     end);
 
@@ -241,18 +239,21 @@ local function expect(value: any)
     end);
 
     continueEvent.Event:Wait();
-    task.cancel(timeoutTask);
-    task.cancel(testTask);
+
+    if coroutine.status(testTask) ~= "dead" then
+
+      task.cancel(testTask);
+      error(`Expected function to finish before {seconds} second{if seconds ~= 1 then "s" else ""}, but it timed out.`);
+
+    elseif coroutine.status(timeoutTask) ~= "dead" then
+
+      task.cancel(timeoutTask);
+    
+    end;
 
     if propagatedErrorMessage then
 
       error(propagatedErrorMessage);
-
-    end;
-    
-    if didTimeout then
-
-      error(`Expected function to finish before {seconds} seconds, but it timed out.`);
 
     end;
 
