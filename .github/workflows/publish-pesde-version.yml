@@ -11,7 +11,7 @@ concurrency:
 jobs:
   build:
     name: Build project
-    runs-on: ubuntu-24.04
+    runs-on: windows-latest
     environment: Production
     steps:
       - name: Checkout repository

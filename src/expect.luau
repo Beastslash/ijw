@@ -4,7 +4,11 @@ local function expect(value: any)
 
   local function toExist(): ()
 
-    assert(value ~= nil, "Expected value to exist, but it was nil.");
+    if value == nil then
+
+      error("Expected value to exist.", 2);
+
+    end;
 
   end
 
@@ -12,7 +16,7 @@ local function expect(value: any)
 
     if value ~= nil then
 
-      error(`Expected value to be nil, but it was {typeof(value)}.`);
+      error(`Expected value to be nil.`, 2);
 
     end;
 
@@ -22,7 +26,7 @@ local function expect(value: any)
 
     if value ~= expectedValue then
 
-      error(`Expected value to be {expectedValue}, but got {value}.`);
+      error(`Expected value to be {expectedValue}.`, 2);
 
     end;
 
@@ -32,7 +36,7 @@ local function expect(value: any)
 
     if value == expectedValue then
 
-      error(`Expected value to not be {expectedValue}, but it is.`);
+      error(`Expected value to not be {expectedValue}.`, 2);
 
     end;
 
@@ -42,7 +46,7 @@ local function expect(value: any)
 
     if typeof(value) ~= expectedType then
 
-      error(`Expected value to be of type {expectedType}, but got {typeof(value)}.`);
+      error(`Expected value to be of type {expectedType}, but got {typeof(value)}.`, 2);
 
     end;
 
@@ -52,7 +56,7 @@ local function expect(value: any)
 
     if value ~= true then 
       
-      error(`Expected value to be true, but it was {typeof(value)}.`);
+      error(`Expected value to be true.`, 2);
 
     end;
 
@@ -60,7 +64,11 @@ local function expect(value: any)
 
   local function toBeTruthy(): ()
 
-    assert(value, "Expected value to be truthy, but it was falsy.");
+    if not value then
+      
+      error(`Expected value to be truthy.`, 2);
+
+    end;
 
   end;
 
@@ -68,7 +76,7 @@ local function expect(value: any)
 
     if value ~= false then
       
-      error(`Expected value to be false, but it was {typeof(value)}.`);
+      error(`Expected value to be false.`, 2);
 
     end;
 
@@ -76,17 +84,25 @@ local function expect(value: any)
 
   local function toBeFalsy(): ()
 
-    assert(not value, "Expected value to be falsy, but it was truthy.");
+    if value then
+      
+      error(`Expected value to be falsy, but it was truthy.`, 2);
+
+    end;
 
   end;
   
   local function toBeGreaterThan(expectedValue: number): ()
 
-    assert(typeof(value) == "number", "Expected value to be a number.");
+    if typeof(value) ~= "number" then
+
+      error("Expected value to be a number.", 2);
+    
+    end;
     
     if value <= expectedValue then
 
-      error(`Expected value to be greater than {expectedValue}, but got {value}.`);
+      error(`Expected value to be greater than {expectedValue}.`, 2);
 
     end;
 
@@ -94,11 +110,15 @@ local function expect(value: any)
 
   local function toBeGreaterThanOrEqual(expectedValue: number): ()
 
-    assert(typeof(value) == "number", "Expected value to be a number.");
+    if typeof(value) ~= "number" then
+
+      error("Expected value to be a number.", 2);
+    
+    end;
     
     if value < expectedValue then
 
-      error(`Expected value to be greater than or equal to {expectedValue}, but got {value}.`);
+      error(`Expected value to be greater than or equal to {expectedValue}.`, 2);
 
     end;
 
@@ -106,11 +126,15 @@ local function expect(value: any)
 
   local function toBeLessThanOrEqual(expectedValue: number): ()
 
-    assert(typeof(value) == "number", "Expected value to be a number.");
+    if typeof(value) ~= "number" then
+
+      error("Expected value to be a number.", 2);
+    
+    end;
     
     if value > expectedValue then
 
-      error(`Expected value to be less than or equal to {expectedValue}, but got {value}.`);
+      error(`Expected value to be less than or equal to {expectedValue}.`, 2);
 
     end;
 
@@ -118,11 +142,15 @@ local function expect(value: any)
 
   local function toBeLessThan(expectedValue: number): ()
 
-    assert(typeof(value) == "number", "Expected value to be a number.");
+    if typeof(value) ~= "number" then
+
+      error("Expected value to be a number.", 2);
+    
+    end;
     
     if value >= expectedValue then
 
-      error(`Expected value to be less than {expectedValue}, but got {value}.`);
+      error(`Expected value to be less than {expectedValue}, but got {value}.`, 2);
 
     end;
 
@@ -130,13 +158,17 @@ local function expect(value: any)
 
   local function toDeepEqual(expectedValue: any): ()
 
-    assert(typeof(value) == typeof(expectedValue), "Expected value and expectedValue to be of the same type for deep equality check.");
+    if typeof(value) ~= typeof(expectedValue) then
+
+      error("Expected value and expectedValue to be of the same type for deep equality check.", 2);
+
+    end;
     
     if typeof(value) ~= "table" then
 
       if value ~= expectedValue then
 
-        error(`Expected value to be deeply equal to {expectedValue}, but got {value}.`);
+        error(`Expected value to be deeply equal to {expectedValue}, but got {value}.`, 2);
 
       end;
 
@@ -150,7 +182,7 @@ local function expect(value: any)
 
       if #expectedStack ~= #actualStack then
 
-        error(`Expected value to be deeply equal to {expectedValue}, but got {value}.`);
+        error(`Expected value to be deeply equal to {expectedValue}, but got {value}.`, 2);
 
       end;
 
@@ -175,7 +207,7 @@ local function expect(value: any)
           
         elseif not isSameType or not isSameValue then
 
-          error("Value is not deeply equal to expected value.");
+          error("Value is not deeply equal to expected value.", 2);
 
         end;
 
@@ -189,7 +221,7 @@ local function expect(value: any)
 
         if not table.find(ignoredKeys, possiblyUnexpectedKey) then
 
-          error("Value is not deeply equal to expected value.");
+          error("Value is not deeply equal to expected value.", 2);
           
         end;
 
@@ -204,16 +236,28 @@ local function expect(value: any)
 
   local function toError(): ()
 
-    assert(typeof(value) == "function", "Expected value to be a function.");
+    if typeof(value) ~= "function" then
+      
+      error(`Expected value to be a function, but it was a {typeof(value)} instead.`, 2);
+    
+    end;
 
     local didSucceed = pcall(value);
-    assert(not didSucceed, "Expected function to throw an error, but it did not.");
+    if didSucceed then
+      
+      error("Expected function to throw an error, but it did not.", 2);
+
+    end;
 
   end;
 
   local function toFinishBeforeSeconds(seconds: number): ()
     
-    assert(typeof(value) == "function", "Expected value to be a function.");
+    if typeof(value) ~= "function" then
+      
+      error(`Expected value to be a function, but it was a {typeof(value)} instead.`, 2);
+    
+    end;
     
     local continueEvent = Instance.new("BindableEvent");
     local timeoutTask = task.delay(seconds, function()
@@ -226,7 +270,7 @@ local function expect(value: any)
 
     local testTask = task.spawn(function()
 
-      local didSucceed, errorMessage = xpcall(value, debug.traceback);
+      local didSucceed, errorMessage = pcall(value);
 
       if not didSucceed then
 
@@ -243,7 +287,7 @@ local function expect(value: any)
     if not didFinishOnTime then
       
       task.cancel(testTask);
-      error(`Expected function to finish before {seconds} second{if seconds ~= 1 then "s" else ""}, but it timed out.`);
+      error(`Expected function to finish before {seconds} second{if seconds ~= 1 then "s" else ""}, but it timed out.`, 2);
     
     end;
 

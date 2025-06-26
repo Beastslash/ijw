@@ -17,11 +17,11 @@ function TestCase.new(name: string, callback: TestCaseCallback): TestCase
 
     local startTime = os.clock();
 
-    local didPass, errorMessage = xpcall(function()
+    local didPass, errorMessage = pcall(function()
       
       callback(self);
 
-    end, debug.traceback);
+    end);
 
     local endTime = os.clock();
 
