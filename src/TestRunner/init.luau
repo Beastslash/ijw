@@ -107,15 +107,27 @@ function TestRunner:displayResults(results: {TestCaseRunResult})
   local passedCount = 0;
   for _, result in results do
 
+    local function convertSecondsToSmallestRelevantUnit(seconds: number): string
+      if seconds < 0.001 then
+        return `${seconds * 1000000} microseconds`;
+      elseif seconds < 1 then
+        return `${seconds * 1000} milliseconds`;
+      else
+        return `${seconds} seconds`;
+      end;
+    end
+
     local identifier = `{if result.testSuite then `{result.testSuite.name} • ` else ""}{result.testCase.name}`;
+
     if result.didPass then
 
       passedCount += 1;
-      print(`[✅] {identifier} • passed in {result.endTime - result.startTime} seconds`);
+      print(`[✅] {identifier} • passed in {convertSecondsToSmallestRelevantUnit(result.durationSeconds)}`);
     
     else
 
-      warn(`[❌] {identifier} • failed in {result.endTime - result.startTime} seconds\n{result.errorMessage}`);
+      warn(`[❌] {identifier} • failed in {convertSecondsToSmallestRelevantUnit(result.durationSeconds)}`);
+      warn(result.error);
     
     end
 
@@ -123,8 +135,8 @@ function TestRunner:displayResults(results: {TestCaseRunResult})
 
   local failedCount = #results - passedCount;
   print("---");
-  print(`{passedCount} out of {#results} tests passed.`);
-  print(`{failedCount} out of {#results} tests failed.`);
+  print(`{passedCount} of {#results} tests passed.`);
+  print(`{failedCount} of {#results} tests failed.`);
   print(`{passedCount / #results * 100}% coverage{if failedCount == 0 then "! 🎉" else "."}`);
 
 end;

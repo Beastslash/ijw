@@ -26,9 +26,8 @@ return {
       expect(result).toBeA("table");
       expect(result.testCase).toBe(testCase);
       expect(result.didPass).toBe(true);
-      expect(result.errorMessage).toBeNil();
-      expect(result.startTime).toBeA("number");
-      expect(result.endTime).toBeA("number");
+      expect(result.error).toBeNil();
+      expect(result.durationSeconds).toBeA("number");
 
     end);
 
@@ -40,9 +39,8 @@ return {
       local result = testCase:run();
       
       expect(result.didPass).toBe(false);
-      expect(result.errorMessage).toBeA("string");
-      expect(result.startTime).toBeA("number");
-      expect(result.endTime).toBeA("number");
+      expect(result.error).toBeA("string");
+      expect(result.durationSeconds).toBeA("number");
 
     end);
   });

@@ -17,7 +17,7 @@ function TestCase.new(name: string, callback: TestCaseCallback): TestCase
 
     local startTime = os.clock();
 
-    local didPass, errorMessage = pcall(function()
+    local didPass, executionError = pcall(function()
       
       callback(self);
 
@@ -27,8 +27,8 @@ function TestCase.new(name: string, callback: TestCaseCallback): TestCase
 
     local testResult: TestCaseRunResult = {
       didPass = didPass;
-      endTime = endTime;
-      errorMessage = errorMessage;
+      durationSeconds = endTime - startTime;
+      error = executionError;
       startTime = startTime;
       testCase = self;
       testSuite = testSuite;

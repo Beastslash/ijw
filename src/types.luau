@@ -10,9 +10,8 @@ export type TestCaseRunResult = {
   testCase: TestCase;
   testSuite: TestSuite?;
   didPass: boolean;
-  errorMessage: string?;
-  startTime: number;
-  endTime: number;
+  error: unknown?;
+  durationSeconds: number;
 }
 
 export type TestCaseCloneFunction = (self: TestCase, newName: string?, newCallback: TestCaseCallback?, newTestSuite: TestSuite?) -> TestCase;

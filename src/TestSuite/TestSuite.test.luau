@@ -27,6 +27,8 @@ return {
       local results = testSuite:run();
 
       expect(#results).toBe(2);
+      expect(results[1].testSuite).toBe(testSuite);
+      expect(results[2].testSuite).toBe(testSuite);
 
     end);
 
