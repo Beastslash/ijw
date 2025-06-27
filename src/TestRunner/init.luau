@@ -108,13 +108,21 @@ function TestRunner:displayResults(results: {TestCaseRunResult})
   for _, result in results do
 
     local function convertSecondsToSmallestRelevantUnit(seconds: number): string
+
       if seconds < 0.001 then
-        return `${seconds * 1000000} microseconds`;
+
+        return `{seconds * 1000000} microseconds`;
+
       elseif seconds < 1 then
-        return `${seconds * 1000} milliseconds`;
+
+        return `{seconds * 1000} milliseconds`;
+
       else
-        return `${seconds} seconds`;
+
+        return `{seconds} seconds`;
+
       end;
+      
     end
 
     local identifier = `{if result.testSuite then `{result.testSuite.name} • ` else ""}{result.testCase.name}`;

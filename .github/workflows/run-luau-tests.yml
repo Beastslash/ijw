@@ -105,15 +105,53 @@ jobs:
 
               }
 
+              let summary = core.summary.addHeading("Test results");
+              const headingStrings = ["Status", "Test suite", "Test case", "Duration (seconds)", "Error message"];
+              const headings = headingStrings.map(headingString => ({
+                data: headingString,
+                header: true
+              }));
+
+              const rows = [headings];
+              let didFail = false;
               for (const test of testResults) {
               
-                if (!test.didPass) {
-                
-                  throw new Error("A test case failed.");
+                const convertSecondsToSmallestRelevantUnit = (seconds) => {
+                  if (seconds < 0.001) then
+                    return `${seconds * 1000000} microseconds`;
+                  elseif (seconds < 1) then
+                    return `${seconds * 1000} milliseconds`;
+                  else
+                    return `${seconds} seconds`;
+                  end;
+                };
 
-                }
+                if (!test.didPass) then
+
+                  didFail = true;
+
+                end;
+
+                const row = [
+                  test.didPass ? "✅" : "❌",
+                  test.testSuite ? test.testSuite : "N/A",
+                  test.testCase.name,
+                  convertSecondsToSmallestRelevantUnit(test.durationSeconds),
+                  test.error ? JSON.stringify(test.error) : "N/A"
+                ];
+
+                rows.push(row);
 
               }
+
+              summary.addTable(rows);
+              await summary.write();
+
+              if (didFail) then
+
+                throw new Error("A test case failed.");
+
+              end;
             
             } catch (error) {
             
