@@ -89,7 +89,6 @@ jobs:
           place_id: ${{ vars.ROBLOX_PLACE_ID }}
           luau_file: "runTests.luau"
           output_file: "testResults.json"
-          dump_to_summary: true
 
       - name: Verify all tests passed
         uses: actions/github-script@v7
@@ -106,13 +105,13 @@ jobs:
               }
 
               let summary = core.summary.addHeading("Test results");
-              const headingStrings = ["Status", "Test suite", "Test case", "Duration (seconds)", "Error message"];
-              const headings = headingStrings.map(headingString => ({
+              const headerStrings = ["Status", "Test suite", "Test case", "Duration", "Error message"];
+              const headers = headingStrings.map(headingString => ({
                 data: headingString,
                 header: true
               }));
 
-              const rows = [headings];
+              const rows = [headers];
               let didFail = false;
               for (const test of testResults) {
               
@@ -133,8 +132,8 @@ jobs:
                 }
 
                 const row = [
-                  test.didPass ? "✅" : "❌",
-                  test.testSuite ? test.testSuite : "N/A",
+                  test.didPass ? "Pass ✅" : "Fail ❌",
+                  test.testSuite ? test.testSuite.name : "N/A",
                   test.testCase.name,
                   convertSecondsToSmallestRelevantUnit(test.durationSeconds),
                   test.error ? JSON.stringify(test.error) : "N/A"
