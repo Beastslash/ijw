@@ -50,7 +50,7 @@ jobs:
     
   publish:
     name: Deploy testing place to Roblox
-    environment: Staging
+    environment: Production
     runs-on: ubuntu-24.04
     needs: build
     steps:
@@ -74,7 +74,7 @@ jobs:
 
   test:
     runs-on: ubuntu-24.04
-    environment: Staging
+    environment: Production
     name: Run test cases
     needs: publish
     steps:
