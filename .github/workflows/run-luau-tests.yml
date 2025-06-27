@@ -106,7 +106,7 @@ jobs:
 
               let summary = core.summary.addHeading("Test results");
               const headerStrings = ["Status", "Test suite", "Test case", "Duration", "Error message"];
-              const headers = headingStrings.map(headingString => ({
+              const headers = headerStrings.map(headerString => ({
                 data: headingString,
                 header: true
               }));
