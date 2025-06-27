@@ -29,7 +29,6 @@ function TestCase.new(name: string, callback: TestCaseCallback): TestCase
       didPass = didPass;
       durationSeconds = endTime - startTime;
       error = executionError;
-      startTime = startTime;
       testCase = self;
       testSuite = testSuite;
     };
