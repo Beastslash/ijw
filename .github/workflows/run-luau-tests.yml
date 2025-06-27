@@ -117,16 +117,16 @@ jobs:
               for (const test of testResults) {
               
                 const convertSecondsToSmallestRelevantUnit = (seconds) => {
-                  if (seconds < 0.001) then
+                  if (seconds < 0.001) {
                     return `${seconds * 1000000} microseconds`;
-                  elseif (seconds < 1) then
+                  } elseif (seconds < 1) {
                     return `${seconds * 1000} milliseconds`;
-                  else
+                  } else {
                     return `${seconds} seconds`;
-                  end;
+                  };
                 };
 
-                if (!test.didPass) then
+                if (!test.didPass) {
 
                   didFail = true;
 
@@ -147,7 +147,7 @@ jobs:
               summary.addTable(rows);
               await summary.write();
 
-              if (didFail) then
+              if (didFail) {
 
                 throw new Error("A test case failed.");
 
