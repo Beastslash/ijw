@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - production
+      - staging
     paths:
       - "src/**"
       - "pesde.toml"
@@ -50,7 +50,7 @@ jobs:
     
   publish:
     name: Deploy testing place to Roblox
-    environment: Production
+    environment: Staging
     runs-on: ubuntu-24.04
     needs: build
     steps:
@@ -74,7 +74,7 @@ jobs:
 
   test:
     runs-on: ubuntu-24.04
-    environment: Production
+    environment: Staging
     name: Run test cases
     needs: publish
     steps:
