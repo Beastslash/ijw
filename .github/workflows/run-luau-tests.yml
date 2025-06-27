@@ -130,7 +130,7 @@ jobs:
 
                   didFail = true;
 
-                end;
+                }
 
                 const row = [
                   test.didPass ? "✅" : "❌",
